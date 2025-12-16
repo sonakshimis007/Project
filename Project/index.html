@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Eleganza – Luxury E‑Commerce</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;transition:all 0.3s ease;}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(180deg,#f8f8fb,#ececf1);
+      color:#1a1a1a;
+    }
+    h1,h2{font-family:'Playfair Display',serif}
+
+    .hero{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top,rgba(255,255,255,.15),rgba(0,0,0,.7)),
+        url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1800') center/cover;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      color:#fff;
+      text-align:center;
+      padding:30px;
+    }
+    .hero h1{font-size:3.5rem}
+    .hero button{
+      margin-top:30px;
+      padding:16px 40px;
+      border:none;
+      border-radius:40px;
+      background:linear-gradient(135deg,#c9a24d,#ffdd99);
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 8px 15px rgba(0,0,0,0.2);
+    }
+    .hero button:hover{transform:scale(1.05);}
+
+    .login{
+      min-height:100vh;
+      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+    }
+    .login-box{
+      background:rgba(255,255,255,.15);
+      backdrop-filter:blur(15px);
+      padding:50px;
+      border-radius:25px;
+      width:360px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
+    }
+    .login-box input{
+      width:100%;
+      padding:14px;
+      margin:12px 0;
+      border:none;
+      border-radius:30px;
+      background:rgba(255,255,255,0.8);
+      font-size:1rem;
+    }
+    .login-box button{
+      width:100%;
+      padding:14px;
+      margin-top:18px;
+      border:none;
+      border-radius:30px;
+      background:linear-gradient(135deg,#c9a24d,#ffdd99);
+      font-weight:600;
+      cursor:pointer;
+      box-shadow:0 6px 12px rgba(0,0,0,0.3);
+    }
+    .login-box button:hover{transform:scale(1.03);}
+
+    .store{padding:80px 8%;}
+    .products{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:40px;
+    }
+    .card{
+      background:white;
+      border-radius:22px;
+      box-shadow:0 15px 30px rgba(0,0,0,.15);
+      overflow:hidden;
+      position:relative;
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover{
+      transform:translateY(-10px);
+      box-shadow:0 25px 50px rgba(0,0,0,.25);
+    }
+    .card img{
+      width:100%;
+      height:300px;
+      object-fit:cover;
+      transition:transform 0.3s;
+    }
+    .card:hover img{transform:scale(1.05);}
+    .info{
+      text-align:center;
+      padding:25px;
+    }
+    .info h3{margin-bottom:10px;}
+    .info p{margin-bottom:15px;font-weight:600;color:#555;}
+    .info button{
+      padding:12px 25px;
+      border:none;
+      border-radius:30px;
+      background:#111;
+      color:white;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 6px 12px rgba(0,0,0,0.2);
+    }
+    .info button:hover{background:#222;transform:scale(1.05);}
+
+    .category-section{
+      padding:60px 8%;
+    }
+    .category-section h2{
+      margin-bottom:30px;
+      font-size:2.5rem;
+      text-align:center;
+      color:#333;
+      border-bottom:3px solid #c9a24d;
+      display:inline-block;
+      padding-bottom:5px;
+    }
+  </style>
+</head>
+<body>
+
+<section class="login" id="login">
+  <div class="login-box">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <input type="text" id="address" placeholder="Delivery Address">
+    <button id="loginBtn">Login</button>
+  </div>
+</section>
+
+<section class="hero" id="home">
+  <h1>Eleganza</h1>
+  <p>Luxury fashion crafted for timeless elegance</p>
+  <button onclick="document.getElementById('men').scrollIntoView({behavior:'smooth'})">Enter Store</button>
+</section>
+
+<section class="category-section" id="men">
+  <h2>Men's Collection</h2>
+  <div class="products" id="menProducts"></div>
+</section>
+
+<section class="category-section" id="women">
+  <h2>Women's Collection</h2>
+  <div class="products" id="womenProducts"></div>
+</section>
+
+<section class="store" id="shop">
+  <h2>All Products</h2>
+  🛒 Cart: <span id="cartCount">0</span>
+
+  <div class="products" id="productList"></div>
+
+  <div id="cartBox" style="display:none;margin-top:40px">
+    <h3>Your Cart</h3>
+    <ul id="cartItems"></ul>
+    <h4>Total ₹<span id="totalPrice">0</span></h4>
+
+    <h4>Payment Options</h4>
+    <button onclick="simplePayment('Cash on Delivery')">Cash on Delivery</button>
+    <br><br>
+    <button onclick="simplePayment('UPI / GPay / Paytm')">UPI / GPay / Paytm</button>
+    <br><br>
+    <button onclick="simplePayment('Card / NetBanking')">Card / NetBanking</button>
+  </div>
+</section>
+
+<script>
+const products=[
+ {id:1,name:"Men T‑Shirt",price:599,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",category:'men'},
+ {id:2,name:"Women Dress",price:1499,img:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800",category:'women'},
+ {id:3,name:"Sneakers",price:2599,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",category:'men'},
+ {id:4,name:"Luxury Watch",price:3999,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800",category:'women'}
+];
+
+const cart=[];
+let currentUser=null;
+const list=document.getElementById('productList');
+const menList=document.getElementById('menProducts');
+const womenList=document.getElementById('womenProducts');
+
+products.forEach(p=>{
+  const cardHTML=`<div class="card">
+    <img src="${p.img}">
+    <div class="info">
+      <h3>${p.name}</h3>
+      <p>₹${p.price}</p>
+      <button onclick="addToCart(${p.id})">Add to Cart</button>
+    </div>
+  </div>`;
+  list.innerHTML+=cardHTML;
+  if(p.category==='men') menList.innerHTML+=cardHTML;
+  if(p.category==='women') womenList.innerHTML+=cardHTML;
+});
+
+function addToCart(id){
+ const product=products.find(p=>p.id===id);
+ cart.push(product);
+ document.getElementById('cartCount').innerText=cart.length;
+ renderCart();
+}
+
+function renderCart(){
+ const items=document.getElementById('cartItems');
+ let total=0;
+ items.innerHTML='';
+ cart.forEach(i=>{
+  total+=i.price;
+  const li=document.createElement('li');
+  li.textContent=`${i.name} – ₹${i.price}`;
+  items.appendChild(li);
+ });
+ document.getElementById('totalPrice').innerText=total;
+ document.getElementById('cartBox').style.display='block';
+}
+
+function loginUser(){
+ const u=document.getElementById('username').value;
+ const p=document.getElementById('password').value;
+ const a=document.getElementById('address').value;
+ if(!u||!p||!a){alert('Enter all details');return;}
+ currentUser={name:u,email:u+'@example.com',address:a};
+ document.getElementById('home').scrollIntoView({behavior:'smooth'});
+}
+
+document.getElementById('loginBtn').addEventListener('click', loginUser);
+
+function simplePayment(method){
+ if(!currentUser){
+   alert('Please login before payment');
+   document.getElementById('login').scrollIntoView({behavior:'smooth'});
+   return;
+ }
+ const verifyUsername = prompt('Enter your username to verify before payment:');
+ const verifyPassword = prompt('Enter your password to verify before payment:');
+ if(verifyUsername!==currentUser.name || !verifyPassword){
+   alert('Login verification failed. Payment cancelled.');
+   return;
+ }
+ if(cart.length===0){alert('Cart empty');return;}
+ alert(`Payment method selected: ${method}\nTotal amount: ₹${document.getElementById('totalPrice').innerText}\nDelivering to: ${currentUser.address}`);
+}
+</script>
+</body>
+</html>give the live preview of this full code
